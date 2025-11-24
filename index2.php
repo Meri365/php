@@ -51,57 +51,27 @@
 </head>
 
 <body>
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $first = $_POST["first_name"];
-    $last = $_POST["last_name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $conf_pass = $_POST["confirm_password"];
-
-    $username = $_POST["username"];
-    $phone = $_POST["phone"];
-    $birthdate = $_POST["birthdate"];
-    $gender = $_POST["gender"];
-    $address = $_POST["address"];
-
-    // Password check
-    if ($password !== $conf_pass) {
-        die("Գաղտնաբառերը չեն համընկնում!");
-    }
-
-    echo "<h2>Գրանցման տվյալները</h2>";
-    echo "Անուն: $first <br>";
-    echo "Ազգանուն: $last <br>";
-    echo "Էլ․ փոստ: $email <br>";
-    echo "Օգտանուն: $username <br>";
-    echo "Հեռախոս: $phone <br>";
-    echo "Ծննդյան ամսաթիվ: $birthdate <br>";
-    echo "Սեռ: $gender <br>";
-    echo "Հասցե: $address <br>";
-}
-?>
+    
 <div class="container">
 
     <h2>Գրանցման Ֆորմա</h2>
 
-    <form  method="POST" action="save.php">
+     <form  method="POST" action="save.php">
 
         <label>Անուն(<i>First Name</i>)</label>
-        <input type="text" name="first_name" required>
+        <input type="text" name="first_name" >
 
         <label>Ազգանուն(<i>Last Name</i>)</label>
-        <input type="text" name="last_name" required>
+        <input type="text" name="last_name" >
 
         <label>Էլ․ փոստ(<i>Email</i>)</label>
-        <input type="email" name="email" required>
+        <input type="email" name="email" >
 
         <label>Գաղտնաբառ(<i>Password</i>)</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password" >
 
         <label>Կրկին գաղտնաբառ(<i>Password</i>)</label>
-        <input type="password" name="confirm_password" required>
+        <input type="password" name="confirm_password" >
 
         <label>Օգտանուն(<i>Username</i>)</label>
         <input type="text" name="username">
