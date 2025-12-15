@@ -56,7 +56,7 @@
 
     <h2>Գրանցման Ֆորմա</h2>
 
-     <form  method="POST" action="save.php">
+     <form  method="POST" action="save.php" enctype = "multipart/form-data">
 
         <label>Անուն(<i>First Name</i>)</label>
         <input type="text" name="first_name" >
@@ -95,6 +95,17 @@
         <button type="submit">Գրանցվել</button><br>
         
     </form>
+    <?php
+       session_start();
+       if(isset($_SESSION['$errors'])){
+        echo "<p style ='color:red;'>";
+        foreach ($_SESSION['$errors'] as $err){
+            echo $err . "<br>";
+        }
+        echo "</p>";
+       unset($_SESSION['errors']);
+       }
+    ?>
 
 </div>
 </body>

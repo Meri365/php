@@ -1,10 +1,61 @@
 <?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+
+$sql = "CREATE DATABASE IF NOT EXISTS shop_db";
+if ($conn->query($sql) === TRUE) {
+  echo "Database created successfully";
+} else {
+  echo "Error creating database: " . $conn->error;
+}
+// Create connection
+$conn = new mysqli($servername, $username, $password, "shop_db");
+// Check connection
+if ($conn->connect_error) {
+  die("Connection 2 failed: " . $conn->connect_error);
+}
+
+$sqlUser = "CREATE TABLE IF NOT EXISTS user(
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+email VARCHAR(50),
+username VARCHAR(50) UNIQUE,
+password VARCHAR(255),
+phone VARCHAR(20),
+birthdate DATE,
+gender VARCHAR(10),
+address TEXT,
+reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+
+if ($conn->query($sqlUser) === TRUE) {
+  echo "Table  created successfully";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+
+
+session_start();
+unset($_SESSION['errors']);
+unset($_SESSION['success']);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $first = trim($_POST["first_name"]);
     $last = trim($_POST["last_name"]);
     $email = trim($_POST["email"]);
-    $password = $_POST["password"];
+    $password = md5($_POST["password"]);
     $conf_pass = $_POST["confirm_password"];
     $username = trim($_POST["username"]);
     $phone = trim($_POST["phone"]);
@@ -82,6 +133,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Սխալները
+if (!empty($errors)){
+    $_SESSION['errors'] = $errors;
+    header("Location: index2.php");
+}else{
+   $sqlInsert = "INSERT INTO user (first_name, last_name, email, username, password, phone, birthdate, gender, address)
+VALUES ('$first','$last','$email','$username','$password','$phone','$birthdate','$gender','$address')";
+
+ if ($conn->query($sqlInsert) === TRUE) {
+    $_SESSION['success'] = "Registered!";
+ }else{
+     echo "Error creating table: " . $sql . "<br>" . $conn->error;
+ }
+}
+
  if (!empty($errors)) {
         echo "<h3 style='color:red'>Սխալներ կա ֆորմայի լրացման մեջ:</h3>";
         echo "<ul>";
@@ -109,6 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($data as $key => $value) {
         echo "$key => [$value]<br>";
     }
+    echo "<h4 style = 'color:green'> Success!</h4>";
 
 
 ?>
